@@ -1,17 +1,24 @@
 node {
-  stage('Build') {
-    dir('simple-java-maven-app') {
-      sh 'mvn clean package'
+  docker.image('maven:3.9.0').inside('-v /root/.m2:/root/.m2') {
+    stage('Build') {
+      sh 'mvn -B -DskipTests clean package'
     }
-  }
-
-  stage('Test') {
-    dir('simple-java-maven-app') {
-      sh 'mvn test'
+    
+    stage('Test') {
+      steps {
+        sh 'mvn test'
+      }
+      post {
+        always {
+            junit 'target/surefire-reports/*.xml'
+        }
+      }
     }
-  }
-  
-  stage('Cleanup') {
-    deleteDir()
+    
+    stage('Deliver') {
+      steps {
+        sh './jenkins/scripts/deliver.sh'
+      }
+    }
   }
 }
