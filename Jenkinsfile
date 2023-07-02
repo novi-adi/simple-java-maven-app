@@ -9,9 +9,31 @@ node {
             junit 'target/surefire-reports/*.xml'
         }
 
+        stage('Manual Approval') {
+            steps {
+                script {
+                    userInput = input(
+                        id: 'manual-approval',
+                        message: 'Lanjutkan ke tahap Deploy?',
+                        parameters: [
+                            choice(name: 'PROCEED', description: 'Lanjutkan ke tahap Deploy.'),
+                            choice(name: 'ABORT', description: 'Hentikan eksekusi pipeline.')
+                        ]
+                    )
+                }
+                script {
+                    if (userInput == 'PROCEED') {
+                        echo 'User chose to proceed to Deploy stage.'
+                    } else {
+                        error('Pipeline execution aborted by the user.')
+                    }
+                }
+            }
+        }
+
         stage('Deploy') {
             sh './jenkins/scripts/deliver.sh'
-            
+
             // Pause the pipeline execution for 1 minute (60 seconds)
             sleep time: 60, unit: 'SECONDS'
         }
