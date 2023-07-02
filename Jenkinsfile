@@ -13,11 +13,9 @@ node {
             steps {
                 script {
                     def userInput = input(
-                        id: 'manual-approval',
                         message: 'Lanjutkan ke tahap Deploy?',
                         parameters: [
-                            choice(name: 'PROCEED', description: 'Lanjutkan ke tahap Deploy.'),
-                            choice(name: 'ABORT', description: 'Hentikan eksekusi pipeline.')
+                            [$class: 'ChoiceParameterDefinition', choices: 'PROCEED\nABORT', description: 'Pilih PROCEED untuk melanjutkan atau ABORT untuk menghentikan eksekusi pipeline.']
                         ]
                     )
                     if (userInput == 'PROCEED') {
