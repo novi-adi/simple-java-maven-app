@@ -12,7 +12,7 @@ node {
         stage('Manual Approval') {
             steps {
                 script {
-                    userInput = input(
+                    def userInput = input(
                         id: 'manual-approval',
                         message: 'Lanjutkan ke tahap Deploy?',
                         parameters: [
@@ -20,8 +20,6 @@ node {
                             choice(name: 'ABORT', description: 'Hentikan eksekusi pipeline.')
                         ]
                     )
-                }
-                script {
                     if (userInput == 'PROCEED') {
                         echo 'User chose to proceed to Deploy stage.'
                     } else {
