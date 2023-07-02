@@ -11,12 +11,7 @@ node {
 
         stage('Manual Approval') {
             steps {
-                input(
-                    message: 'Lanjutkan ke tahap Deploy?',
-                    parameters: [
-                        [$class: 'ChoiceParameterDefinition', choices: 'PROCEED\nABORT', description: 'Pilih PROCEED untuk melanjutkan atau ABORT untuk menghentikan eksekusi pipeline.']
-                    ]
-                )
+                input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
             }
         }
         
