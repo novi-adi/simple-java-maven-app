@@ -11,22 +11,15 @@ node {
 
         stage('Manual Approval') {
             steps {
-                script {
-                    def userInput = input(
-                        message: 'Lanjutkan ke tahap Deploy?',
-                        parameters: [
-                            [$class: 'ChoiceParameterDefinition', choices: 'PROCEED\nABORT', description: 'Pilih PROCEED untuk melanjutkan atau ABORT untuk menghentikan eksekusi pipeline.']
-                        ]
-                    )
-                    if (userInput == 'PROCEED') {
-                        echo 'User chose to proceed to Deploy stage.'
-                    } else {
-                        error('Pipeline execution aborted by the user.')
-                    }
-                }
+                input(
+                    message: 'Lanjutkan ke tahap Deploy?',
+                    parameters: [
+                        [$class: 'ChoiceParameterDefinition', choices: 'PROCEED\nABORT', description: 'Pilih PROCEED untuk melanjutkan atau ABORT untuk menghentikan eksekusi pipeline.']
+                    ]
+                )
             }
         }
-
+        
         stage('Deploy') {
             sh './jenkins/scripts/deliver.sh'
 
