@@ -11,6 +11,9 @@ node {
 
         stage('Deploy') {
             sh './jenkins/scripts/deliver.sh'
+            
+            // Pause the pipeline execution for 1 minute (60 seconds)
+            sleep time: 60, unit: 'SECONDS'
         }
     }
 }
