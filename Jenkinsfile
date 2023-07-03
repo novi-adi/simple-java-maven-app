@@ -10,7 +10,7 @@ node {
         }
 
         stage('Manual Approval') {
-            input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
+            input message: 'Lanjutkan ke tahap Deploy?'
         }
         
         stage('Deploy') {
